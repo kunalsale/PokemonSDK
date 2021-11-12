@@ -4,8 +4,12 @@ import com.ksale.pokemon_sdk.api.Result
 import com.ksale.pokemon_sdk.api.models.PokemonResponse
 import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
 import com.ksale.pokemon_sdk.data.PokemonRepository
+import javax.inject.Inject
 
-class PokemonUseCase(private val pokemonRepository: PokemonRepository) {
+class PokemonUseCase @Inject constructor() {
+
+    @Inject lateinit var pokemonRepository: PokemonRepository
+
     suspend fun getPokemon(pokemonName: String): PokemonState {
         if (pokemonName.isBlank()) {
             return PokemonState.PokemonError("Pokemon name cannot be blank")
@@ -38,7 +42,7 @@ class PokemonUseCase(private val pokemonRepository: PokemonRepository) {
 }
 
 sealed class PokemonState {
-    class Pokemon(response: PokemonResponse): PokemonState()
-    class PokemonSpecies(response: PokemonSpeciesResponse): PokemonState()
-    class PokemonError(errorMessage: String): PokemonState()
+    class Pokemon(val response: PokemonResponse): PokemonState()
+    class PokemonSpecies(val response: PokemonSpeciesResponse): PokemonState()
+    class PokemonError(val errorMessage: String): PokemonState()
 }

@@ -4,11 +4,15 @@ import com.ksale.pokemon_sdk.api.PokemonService
 import com.ksale.pokemon_sdk.api.Result
 import com.ksale.pokemon_sdk.api.models.PokemonResponse
 import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
+import javax.inject.Inject
 
-class PokemonRepositoryImpl(private val pokemonService: PokemonService) : PokemonRepository {
+internal class PokemonRepositoryImpl @Inject constructor(val pokemonService: PokemonService) : PokemonRepository {
     override suspend fun fetchPokemon(pokemonName: String): Result<PokemonResponse> {
         return withContext(Dispatchers.IO) {
             return@withContext try {
@@ -29,5 +33,15 @@ class PokemonRepositoryImpl(private val pokemonService: PokemonService) : Pokemo
                 Result.Error(e)
             }
         }
+    }
+}
+
+
+@Module
+@InstallIn(ActivityComponent::class)
+object PokemonModule {
+    @Provides
+    fun providePokemonRepository(pokemonService: PokemonService): PokemonRepository {
+        return PokemonRepositoryImpl(pokemonService)
     }
 }
