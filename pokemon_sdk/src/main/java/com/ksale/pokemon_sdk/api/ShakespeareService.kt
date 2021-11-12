@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface ShakespeareService {
     @GET("/translate/shakespeare.json")
-    suspend fun translateDescription(@Query("text") text: String): ShakespeareTranslationResponse
+    suspend fun callTranslateDescriptionAPI(@Query("text") text: String): ShakespeareTranslationResponse
 
     companion object {
         fun create(): ShakespeareService {

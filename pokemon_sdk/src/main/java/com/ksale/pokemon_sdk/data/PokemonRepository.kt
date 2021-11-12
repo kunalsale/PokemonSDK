@@ -1,9 +1,10 @@
 package com.ksale.pokemon_sdk.data
 
+import com.ksale.pokemon_sdk.api.Result
 import com.ksale.pokemon_sdk.api.models.PokemonResponse
 import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
 
 interface PokemonRepository {
-    suspend fun fetchPokemon(pokemonName: String): PokemonResponse
-    suspend fun fetchPokemonSpecies(pokemonName: String): PokemonSpeciesResponse
+    suspend fun fetchPokemon(pokemonName: String): Result<PokemonResponse>
+    suspend fun fetchPokemonSpecies(pokemonName: String): Result<PokemonSpeciesResponse>
 }

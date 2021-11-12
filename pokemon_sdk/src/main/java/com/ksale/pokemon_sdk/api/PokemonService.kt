@@ -14,10 +14,10 @@ import retrofit2.http.Url
 interface PokemonService {
 
     @GET("pokemon/{pokemonName}")
-    suspend fun pokemon(@Path("pokemonName") pokemonName: String): PokemonResponse
+    suspend fun callPokemonAPI(@Path("pokemonName") pokemonName: String): PokemonResponse
 
     @GET("pokemon-species/{pokemonName}")
-    suspend fun pokemonSpecies(@Path("pokemonName") pokemonName: String): PokemonSpeciesResponse
+    suspend fun callPokemonSpeciesAPI(@Path("pokemonName") pokemonName: String): PokemonSpeciesResponse
 
     companion object {
         fun create(): PokemonService {
