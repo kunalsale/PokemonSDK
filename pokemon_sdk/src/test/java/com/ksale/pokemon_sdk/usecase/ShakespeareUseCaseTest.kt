@@ -1,6 +1,5 @@
 package com.ksale.pokemon_sdk.usecase
 
-import com.ksale.pokemon_sdk.api.Result
 import com.ksale.pokemon_sdk.api.models.Contents
 import com.ksale.pokemon_sdk.api.models.ShakespeareTranslationResponse
 import com.ksale.pokemon_sdk.api.models.Success
