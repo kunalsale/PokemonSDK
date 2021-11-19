@@ -6,11 +6,9 @@ import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
 import com.ksale.pokemon_sdk.data.PokemonRepository
 import javax.inject.Inject
 
-class PokemonUseCase @Inject constructor() {
+class PokemonUseCase @Inject constructor(private val pokemonRepository: PokemonRepository) {
 
-    @Inject lateinit var pokemonRepository: PokemonRepository
-
-    suspend fun getPokemon(pokemonName: String): PokemonState {
+    suspend fun getPokemon(pokemonName: String): PokemonState? {
         if (pokemonName.isBlank()) {
             return PokemonState.PokemonError("Pokemon name cannot be blank")
         }
@@ -26,7 +24,7 @@ class PokemonUseCase @Inject constructor() {
     }
 
     suspend fun getPokemonSpecies(pokemonName: String): PokemonState {
-        if (pokemonName.isNotBlank()) {
+        if (pokemonName.isBlank()) {
             return PokemonState.PokemonError("Pokemon name cannot be blank")
         }
         val lowerCasePokemon = pokemonName.lowercase()

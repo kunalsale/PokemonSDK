@@ -8,13 +8,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
-internal class PokemonRepositoryImpl @Inject constructor(val pokemonService: PokemonService) : PokemonRepository {
+internal class PokemonRepositoryImpl
+    @Inject constructor(val pokemonService: PokemonService,
+                        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default) : PokemonRepository {
     override suspend fun fetchPokemon(pokemonName: String): Result<PokemonResponse> {
-        return withContext(Dispatchers.IO) {
+        return withContext(defaultDispatcher) {
             return@withContext try {
                 val response = pokemonService.callPokemonAPI(pokemonName)
                 Result.Success(response)
@@ -25,7 +26,7 @@ internal class PokemonRepositoryImpl @Inject constructor(val pokemonService: Pok
     }
 
     override suspend fun fetchPokemonSpecies(pokemonName: String): Result<PokemonSpeciesResponse> {
-        return withContext(Dispatchers.IO) {
+        return withContext(defaultDispatcher) {
             return@withContext try {
                 val response = pokemonService.callPokemonSpeciesAPI(pokemonName)
                 Result.Success(response)
@@ -42,6 +43,6 @@ internal class PokemonRepositoryImpl @Inject constructor(val pokemonService: Pok
 object PokemonModule {
     @Provides
     fun providePokemonRepository(pokemonService: PokemonService): PokemonRepository {
-        return PokemonRepositoryImpl(pokemonService)
+        return PokemonRepositoryImpl(pokemonService, Dispatchers.IO)
     }
 }

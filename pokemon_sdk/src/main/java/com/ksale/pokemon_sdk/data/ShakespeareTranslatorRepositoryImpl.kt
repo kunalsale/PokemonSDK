@@ -7,14 +7,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class ShakespeareTranslatorRepositoryImpl @Inject constructor(val shakespeareService: ShakespeareService) :
-    ShakespeareTranslatorRepository {
+internal class ShakespeareTranslatorRepositoryImpl
+    @Inject constructor(private val shakespeareService: ShakespeareService,
+                        private val dispatcher: CoroutineDispatcher = Dispatchers.Default) : ShakespeareTranslatorRepository {
     override suspend fun fetchShakespeareTranslatedText(textToTranslate: String): Result<ShakespeareTranslationResponse> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             return@withContext try {
                 val response = shakespeareService.callTranslateDescriptionAPI(textToTranslate)
                 Result.Success(response)
@@ -32,6 +34,6 @@ object TranslatorModule {
     fun provideShakespeareTranslatorRepository(
         service: ShakespeareService
     ): ShakespeareTranslatorRepository {
-        return ShakespeareTranslatorRepositoryImpl(service)
+        return ShakespeareTranslatorRepositoryImpl(service, Dispatchers.IO)
     }
 }
