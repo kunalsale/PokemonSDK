@@ -7,20 +7,40 @@ import javax.inject.Inject
 class ShakespeareTranslatorUseCase @Inject constructor(private val repository: ShakespeareTranslatorRepository) {
     suspend fun translateToShakespeare(textToTranslate: String): TranslatorState {
         if (textToTranslate.isBlank()) {
-            return TranslatorState.ShakespeareError("Text is empty")
+            return TranslatorState.ShakespeareError(false, 0, "Text is empty")
         }
-        return when(val response = repository.fetchShakespeareTranslatedText(textToTranslate)) {
+        val formattedString = textToTranslate.replace("[\\t\\n\\r]+".toRegex(), " ");
+        return when (val response = repository.fetchShakespeareTranslatedText(formattedString)) {
             is Result.Success -> {
                 TranslatorState.ShakespeareTranslated(response.data.contents.translated)
             }
             is Result.Error -> {
-                TranslatorState.ShakespeareError(response.exception.message ?: "")
+                return when (response.errorCode) {
+                    429 -> {
+                        TranslatorState.ShakespeareError(
+                            false,
+                            429,
+                            "Please retry again after sometime"
+                        )
+                    }
+                    else -> {
+                        TranslatorState.ShakespeareError(
+                            true,
+                            response.errorCode,
+                            response.errorMessage ?: "Please retry again after sometime"
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 sealed class TranslatorState {
-    class ShakespeareTranslated(translated: String): TranslatorState()
-    class ShakespeareError(errorMessage: String): TranslatorState()
+    class ShakespeareTranslated(val translated: String) : TranslatorState()
+    class ShakespeareError(
+        val shouldRetry: Boolean,
+        val errorCode: Int,
+        val errorMessage: String
+    ) : TranslatorState()
 }
