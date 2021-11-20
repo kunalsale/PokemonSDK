@@ -2,14 +2,12 @@ package com.ksale.pokemon_sdk.api
 
 import com.ksale.pokemon_sdk.api.models.PokemonResponse
 import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
-import com.ksale.pokemon_sdk.api.models.ShakespeareTranslationResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 interface PokemonService {
 

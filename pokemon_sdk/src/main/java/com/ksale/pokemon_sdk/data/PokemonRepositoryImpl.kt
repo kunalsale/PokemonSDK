@@ -36,13 +36,3 @@ internal class PokemonRepositoryImpl
         }
     }
 }
-
-
-@Module
-@InstallIn(ActivityComponent::class)
-object PokemonModule {
-    @Provides
-    fun providePokemonRepository(pokemonService: PokemonService): PokemonRepository {
-        return PokemonRepositoryImpl(pokemonService, Dispatchers.IO)
-    }
-}

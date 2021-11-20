@@ -26,14 +26,3 @@ internal class ShakespeareTranslatorRepositoryImpl
         }
     }
 }
-
-@Module
-@InstallIn(ActivityComponent::class)
-object TranslatorModule {
-    @Provides
-    fun provideShakespeareTranslatorRepository(
-        service: ShakespeareService
-    ): ShakespeareTranslatorRepository {
-        return ShakespeareTranslatorRepositoryImpl(service, Dispatchers.IO)
-    }
-}
