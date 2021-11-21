@@ -20,6 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keepattributes *Annotation*
 -keep class com.ksale.pokemon_sdk**
 -keepclassmembers class com.ksale.pokemon_sdk** {*;}
--keepattributes *Annotation*
