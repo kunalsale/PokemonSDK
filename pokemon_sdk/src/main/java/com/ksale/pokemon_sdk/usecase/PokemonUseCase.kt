@@ -6,8 +6,18 @@ import com.ksale.pokemon_sdk.api.models.PokemonSpeciesResponse
 import com.ksale.pokemon_sdk.data.PokemonRepository
 import javax.inject.Inject
 
+/**
+ * Use case class which will interact with the client app to provide the
+ * pokemon related services.
+ *
+ * @param pokemonRepository Instance of [PokemonRepository]
+ */
 class PokemonUseCase @Inject constructor(private val pokemonRepository: PokemonRepository) {
 
+    /**
+     * Method to get the pokemon information
+     * @param pokemonName Name of the Pokemon
+     */
     suspend fun getPokemon(pokemonName: String): PokemonState {
         if (pokemonName.isBlank()) {
             return PokemonState.PokemonError(false, 400, "Pokemon name cannot be blank")
@@ -23,6 +33,10 @@ class PokemonUseCase @Inject constructor(private val pokemonRepository: PokemonR
         }
     }
 
+    /**
+     * Method to get the pokemon species
+     * @param pokemonName Name of the Pokemon
+     */
     suspend fun getPokemonSpecies(pokemonName: String): PokemonState {
         if (pokemonName.isBlank()) {
             return PokemonState.PokemonError(false, 400, "Pokemon name cannot be blank")
@@ -38,6 +52,11 @@ class PokemonUseCase @Inject constructor(private val pokemonRepository: PokemonR
         }
     }
 
+    /**
+     * method to parse the errors and return the required information
+     * @param errorCode HTTP error code
+     * @param errorMessage HTTP error message
+     */
     private fun parseError(errorCode: Int, errorMessage: String?): PokemonState.PokemonError {
         return when {
             errorCode == 429 -> {

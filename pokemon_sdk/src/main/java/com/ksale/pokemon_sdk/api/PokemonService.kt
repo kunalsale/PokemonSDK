@@ -9,6 +9,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * Retrofit service which interacts with the Pokemon APIs
+ */
 interface PokemonService {
 
     @GET("pokemon/{pokemonName}")

@@ -17,6 +17,16 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 
+/**
+ * Screen to show the info of Pokemon
+ * 1. Pokemon name
+ * 2. Sprite image of it
+ * 3. Shakespearean translation of the description
+ *
+ * @param pokemonName Name of the pokemon
+ * @param pokemonSpriteUrl URL for the sprite
+ * @param shakeSpeareTranslation Shakespearean translated string
+ */
 @ExperimentalCoilApi
 @Composable
 fun PokemonDetailScreen(
