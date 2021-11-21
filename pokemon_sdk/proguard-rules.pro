@@ -22,3 +22,4 @@
 
 -keep class com.ksale.pokemon_sdk**
 -keepclassmembers class com.ksale.pokemon_sdk** {*;}
+-keepattributes *Annotation*
