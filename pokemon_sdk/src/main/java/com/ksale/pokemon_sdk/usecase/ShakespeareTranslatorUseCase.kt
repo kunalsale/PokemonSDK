@@ -4,6 +4,12 @@ import com.ksale.pokemon_sdk.api.Result
 import com.ksale.pokemon_sdk.data.ShakespeareTranslatorRepository
 import javax.inject.Inject
 
+/**
+ * Use case class which will interact with the client app to provide the
+ * Shakespearen translator services.
+ *
+ * @param repository Instance of [ShakespeareTranslatorRepository]
+ */
 class ShakespeareTranslatorUseCase @Inject constructor(private val repository: ShakespeareTranslatorRepository) {
     suspend fun translateToShakespeare(textToTranslate: String): TranslatorState {
         if (textToTranslate.isBlank()) {

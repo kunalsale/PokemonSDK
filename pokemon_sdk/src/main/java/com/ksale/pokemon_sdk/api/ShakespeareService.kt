@@ -8,6 +8,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * Retrofit service which interacts with the Translator APIs
+ */
 interface ShakespeareService {
     @GET("/translate/shakespeare.json")
     suspend fun callTranslateDescriptionAPI(@Query("text") text: String): ShakespeareTranslationResponse
